@@ -1,0 +1,264 @@
+<style>
+
+* {
+  background: white;
+  box-sizing: border-box;
+  font-family: Arial;
+  font-size: 12px;
+}
+
+input {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
+  width: 200px;
+}
+
+#sliders {
+  text-align: left;
+  width: 320px;
+}
+
+#viewport {
+  border: 1px solid #000000;
+  box-sizing: content-box;
+  height: 300px;
+  margin-top: 10px;
+  overflow: hidden;
+  position: relative;
+  width: 735px;
+}
+
+#viewpoint {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform-style: preserve-3d;
+}
+
+.wall {
+  backface-visibility: hidden;
+  display: table;
+  padding-top: 40px;
+  position: absolute;
+}
+
+#wall-front {
+  background: linear-gradient(to bottom, #FFA533, #FFA533 50%, #FAA033 50%, #FAA033);
+  background-size: 100% 20px;
+}
+
+#wall-left {
+  background: linear-gradient(to bottom, #3333ff, #3333ff 50%, #3333f0 50%, #3333f0);
+  background-size: 100% 20px;
+}
+
+#wall-right {
+  background: linear-gradient(to bottom, #ff3333, #ff3333 50%, #f03333 50%, #f03333);
+  background-size: 100% 20px;
+}
+
+#wall-back {
+  background: linear-gradient(to bottom, #33ff33, #33ff33 50%, #33f033 50%, #33f033);
+  background-size: 100% 20px;
+}
+
+.wall-text {
+  background: transparent;
+  color: #ffffff;
+  font-size: 20px;
+  margin-top: -30px;
+  position: absolute;
+  width: 100%;
+}
+
+.window {
+  background: #ADD8E6;
+  border: 2px solid #444444;
+  display: inline-block;
+  height: 100px;
+  vertical-align: top;
+  width: 75px;
+}
+
+.door {
+  background: #CD853F;
+  border: 2px solid #444444;
+  display: inline-block;
+  height: 160px;
+  width: 85px;
+}
+
+#floor {
+  background-size: 100px 100px;
+  background-position: 0 0, 50px 50px;
+  background-image: linear-gradient(45deg, #666666 25%, transparent 25%, transparent 75%, #666666 75%, #666666),
+                    linear-gradient(45deg, #666666 25%, transparent 25%, transparent 75%, #666666 75%, #666666);
+  display: inline-block;
+  position: absolute;
+}
+
+#ceiling {
+  background: linear-gradient(to right, #666666 50%, #666666, #ffffff, #ffffff 50%);
+  background-size: 100px 100%;
+  display: inline-block;
+  position: absolute;
+}
+
+.cell {
+  background: transparent;
+  display: table-cell;
+  transform-style: preserve-3d;
+}
+
+</style>
+
+<center>
+
+<div id="sliders">
+
+  Perspective:
+  <div><input id="perspective" type="range" min="0" max="1000" step="10" oninput="setPerspective(this);" onchange="setPerspective(this);"/>perspective: <span></span> px</div>
+
+  Rotate:
+  <div><input id="rotate-x" type="range" min="-25" max="25" oninput="transform(this);" onchange="transform(this);"/>rotate X: <span></span> deg</div>
+  <div><input id="rotate-y" type="range" min="-180" max="180" oninput="transform(this);" onchange="transform(this);"/>rotate Y: <span></span> deg</div>
+  <div><input id="rotate-z" type="range" min="-25" max="25" oninput="transform(this);" onchange="transform(this);"/>rotate Z: <span></span> deg</div>
+
+  Translate:
+  <div><input id="translate-x" type="range" oninput="transform(this);" onchange="transform(this);"/>translate X: <span></span> px</div>
+  <div><input id="translate-y" type="range" oninput="transform(this);" onchange="transform(this);"/>translate Y: <span></span> px</div>
+  <div><input id="translate-z" type="range" oninput="transform(this);" onchange="transform(this);"/>translate Z: <span></span> px</div>
+
+</div>
+
+<div id="viewport">
+
+  <div id="viewpoint">
+
+    <div id="wall-front" class="wall">
+      <div class="wall-text">FRONT</div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="door"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+    </div>
+
+    <div id="wall-left" class="wall">
+      <div class="wall-text">LEFT</div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+    </div>
+
+    <div id="wall-right" class="wall">
+      <div class="wall-text">RIGHT</div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+    </div>
+
+    <div id="wall-back" class="wall">
+      <div class="wall-text">BACK</div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+      <div class="cell"><div class="window"></div></div>
+    </div>
+
+	<div id="floor">
+	</div>
+
+	<div id="ceiling">
+	</div>
+
+  </div>
+
+</div>
+
+</center>
+
+<script>
+
+var roomH = 200; // Height of each wall
+var roomL = 1200; // Length of each wall
+var values = {
+  'perspective': 750,
+  'rotate-x': 0,
+  'rotate-y': 0,
+  'rotate-z': 0,
+  'translate-x': 0,
+  'translate-y': 0,
+  'translate-z': 0
+};
+
+document.getElementById('viewport').style.perspective = values['perspective'] + 'px';
+
+document.getElementById('viewpoint').style.transform = 'translateZ(' + values['perspective'] + 'px)';
+
+document.getElementById('wall-front').style.width = roomL + 'px';
+document.getElementById('wall-front').style.height = roomH + 'px';
+document.getElementById('wall-front').style.transform = 'translateX(-' + (roomL / 2) + 'px) translateY(-' + (roomH / 2) + 'px) translateZ(-' + (roomL / 2) + 'px)';
+
+document.getElementById('wall-left').style.width = roomL + 'px';
+document.getElementById('wall-left').style.height = roomH + 'px';
+document.getElementById('wall-left').style.transform = 'rotateY(90deg) translateY(-' + (roomH / 2) + 'px) translateZ(-' + roomL + 'px)';
+
+document.getElementById('wall-right').style.width = roomL + 'px';
+document.getElementById('wall-right').style.height = roomH + 'px';
+document.getElementById('wall-right').style.transform = 'rotateY(-90deg) translateY(-' + (roomH / 2) + 'px)';
+
+document.getElementById('wall-back').style.width = roomL + 'px';
+document.getElementById('wall-back').style.height = roomH + 'px';
+document.getElementById('wall-back').style.transform = 'rotateY(-180deg) translateX(' + (roomL / 2) + 'px) translateY(-' + (roomH / 2) + 'px) translateZ(-' + (roomL / 2) + 'px)';
+
+document.getElementById('floor').style.width = roomL + 'px';
+document.getElementById('floor').style.height = roomL + 'px';
+document.getElementById('floor').style.transform = 'translateX(-' + (roomL / 2) + 'px) translateY(-' + (roomL / 2) + 'px) rotateX(90deg) translateZ(-' + (roomH / 2) + 'px)';
+
+document.getElementById('ceiling').style.width = roomL + 'px';
+document.getElementById('ceiling').style.height = roomL + 'px';
+document.getElementById('ceiling').style.transform = 'translateX(-' + (roomL / 2) + 'px) translateY(-' + (roomL / 2) + 'px) rotateX(-90deg) translateZ(-' + (roomH / 2) + 'px)';
+
+document.getElementById('translate-x').min = -roomL / 2 + 10;
+document.getElementById('translate-x').max = roomL / 2 - 10;
+
+document.getElementById('translate-y').min = -roomH / 2 + 10;
+document.getElementById('translate-y').max = roomH / 2 - 10;
+
+document.getElementById('translate-z').min = -roomL / 2 + 10;
+document.getElementById('translate-z').max = roomL / 2 - 10;
+
+for (key in values) {
+  document.getElementById(key).value = values[key];
+  document.getElementById(key).nextElementSibling.innerText = values[key];
+}
+
+function setPerspective(input) {
+  values[input.id] = parseInt(input.value);
+  input.nextElementSibling.innerText = input.value;
+
+  document.getElementById('viewport').style.perspective = values[input.id] + 'px';
+}
+
+function transform(input) {
+  values[input.id] = parseInt(input.value);
+  input.nextElementSibling.innerText = input.value;
+
+  document.getElementById('viewpoint').style.transform =
+    'translateZ(' + values['perspective'] + 'px) ' +
+    'rotateX(' + values['rotate-x'] + 'deg) ' +
+    'rotateY(' + values['rotate-y'] + 'deg) ' +
+    'rotateZ(' + values['rotate-z'] + 'deg) ' +
+    'translateX(' + values['translate-x'] + 'px) ' +
+    'translateY(' + values['translate-y'] + 'px) ' +
+    'translateZ(' + values['translate-z'] + 'px)';
+}
+
+</script>

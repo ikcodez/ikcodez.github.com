@@ -1,0 +1,189 @@
+<style>
+
+* {
+font-family: Arial;
+font-size: 11px;
+}
+
+span {
+padding-left: 2px;
+}
+
+.a {
+background: #fafacc;
+border: 1px solid #444444;
+display: inline-block;
+height: 200px;
+perspective: 300px;
+position: relative;
+width: 170px;
+}
+
+.b {
+background: #ccf8cc;
+border: 1px solid #444444;
+display: inline-block;
+height: 150px;
+left: 25px;
+position: absolute;
+width: 120px;
+top: 25px;
+}
+
+.c {
+background: #ffcccc;
+border: 1px solid #444444;
+display: inline-block;
+height: 120px;
+left: 15px;
+position: absolute;
+width: 90px;
+top: 15px;
+
+}
+
+.cell {
+display: table-cell;
+padding: 0px 20px 5px 0px;
+}
+
+.a-text {
+background: #fafacc;
+border: 1px solid #444444;
+width: 170px;
+}
+
+.b-text {
+background: #ccf8cc;
+border: 1px solid #444444;
+width: 170px;
+}
+
+.c-text {
+background: #ffcccc;
+border: 1px solid #444444;
+width: 170px;
+}
+
+</style>
+
+<div>
+	<div class="cell">
+		<div class="a">
+			<div class="b">
+				<div class="c">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="a">
+			<div class="b" style="transform: rotateZ(20deg);">
+				<div class="c" style="transform: rotateY(70deg);">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="a">
+			<div class="b" style="transform: rotateZ(20deg); perspective: 300px;">
+				<div class="c" style="transform: rotateY(70deg);">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="a">
+			<div class="b" style="transform: rotateZ(20deg); transform-style: preserve-3d;">
+				<div class="c" style="transform: rotateY(70deg);">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div>
+	<div class="cell">
+		<div class="a-text">
+			<span>perspective: 300px;</span>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="a-text">
+			<span>perspective: 300px;</span>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="a-text">
+			<span>perspective: 300px;</span>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="a-text">
+			<span>perspective: 300px;</span>
+		</div>
+	</div>
+</div>
+
+<div>
+	<div class="cell">
+		<div class="b-text">
+			<span>No transforms</span><br/>
+			<span>&nbsp;</span>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="b-text">
+			<span>transform: rotateZ(20deg);</span><br/>
+			<span>&nbsp;</span>
+		</div>
+	</div>
+
+
+	<div class="cell">
+		<div class="b-text">
+			<span>transform: rotateZ(20deg);</span><br/>
+			<span><i>perspective: 300px;</i></span>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="b-text">
+			<span>transform: rotateZ(20deg);</span><br/>
+			<span><i>transform-style: preserve-3d;</i></span>
+		</div>
+	</div>
+</div>
+
+<div>
+	<div class="cell">
+		<div class="c-text">
+			<span>No transforms</span>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="c-text">
+			<span>transform: rotateY(70deg);</span>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="c-text">
+			<span>transform: rotateY(70deg);</span>
+		</div>
+	</div>
+
+	<div class="cell">
+		<div class="c-text">
+			<span>transform: rotateY(70deg);</span>
+		</div>
+	</div>
+</div>

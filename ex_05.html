@@ -1,0 +1,190 @@
+<style>
+
+* {
+  box-sizing: border-box;
+  font-family: Arial;
+  font-size: 12px;
+  margin: 0;
+}
+
+input {
+  margin-left: 5px;
+  vertical-align: middle;
+  width: 200px;
+}
+
+span {
+	padding-top: 10px;
+}
+
+#cont {
+	height: 300px;
+	position: absolute;
+	width: 300px;
+}
+
+#screen-plane {
+	border-top: 1px dashed red;
+	position: absolute;
+	left: 0px;
+	top: 101.5px;
+	width: 300px;
+}
+
+#screen {
+	border: 2px solid red;
+	left: 100px;
+	position: absolute;
+	top: 100px;
+	width: 100px;
+}
+
+#cont-walls {
+	left: 150px;
+	position: absolute;
+	top: 100px;
+}
+
+.wall {
+	border: 2px solid orange;
+	left: 0px;
+	position: absolute;
+	top: 0px;
+	width: 100px;
+}
+
+.wall-text {
+	color: #FF8C00;
+	left: 0px;
+	position: absolute;
+	text-align: center;
+	top: 0px;
+	width: 100px;
+}
+
+#cont-viewpoint {
+	left: 150px;
+	position: absolute;
+	top: 100px;
+}
+
+#viewpoint {
+	background: orange;
+	border: 1px solid black;
+	border-radius: 50%;
+	height: 6px;
+	left: -3px;
+	position: absolute;
+	top: -1px;
+	width: 6px;
+}
+
+#viewpoint-text {
+	color: #FF8C00;
+	left: -45px;
+	position: absolute;
+	top: -15px;
+}
+
+#perspective-line {
+	border-left: 1px dashed 1E90FF;
+	height: 100px;
+	position: absolute;
+	left: 150px;
+	top: 102px;
+}
+
+#perspective-point {
+	background: #1E90FF;
+	border: 1px solid black;
+	border-radius: 50%;
+	height: 6px;
+	left: 147px;
+	position: absolute;
+	top: 199px;
+	width: 6px;
+}
+
+</style>
+
+<canvas id="canvas" height="300px" style="left: 0px; position: absolute;"></canvas>
+
+<div id="cont">
+
+	<div id="screen-plane"></div>
+
+	<div id="screen"></div>
+
+	<div id="perspective-line"></div>
+
+	<div id="perspective-point"></div>
+
+	<div id="cont-walls">
+		<div class="wall" style="transform: translateX(-50px) translateY(-50px);"></div>
+		<div class="wall" style="transform: rotateZ(90deg) translateY(100px);"></div>
+		<div class="wall" style="transform: rotateZ(-90deg);"></div>
+
+		<div class="wall-text" style="transform: translateX(-50px) translateY(-64px);">front</div>
+		<div class="wall-text" style="transform: rotateZ(-90deg) translateY(-110px);">left</div>
+		<div class="wall-text" style="transform: rotateZ(90deg) translateY(-10px);">right</div>
+	</div>
+
+	<div id="cont-viewpoint">
+		<div id="viewpoint"></div>
+		<div id="viewpoint-text">viewpoint</div>
+	</div>
+
+</div>
+
+<div style="position: absolute; left: 310px; top: 10px;">
+	<span>Rotate viewpoint: </span>
+	<div style="margin-bottom: 5px;"><input id="rotate" type="range" min="-90" max="90" value="0" oninput="rotate(this);" onchange="rotate(this);"></input></div>
+	<span>Move viewpoint on z-axis: </span>
+	<div><input id="move" type="range" min="0" max="100" value="0" oninput="move(this);" onchange="move(this);"></input></div>
+</div>
+
+<div style="color: red; left: 10px; position: absolute; top: 89px;">screen<br>plane</div>
+
+<div style="left: 10px; position: absolute; top: 280px;">view from top</div>
+
+<div style="color: 1E90FF; left: 152px; position: absolute; top: 201;">perspective</div>
+
+<script>
+
+var canvas = document.getElementById("canvas");
+var rotateZ = 0;
+var moveY = 0;
+
+
+if(canvas.getContext)
+{
+	var context = canvas.getContext("2d");
+	context.fillStyle="#C0C0C0";
+	context.fillRect(0, 0, 300, 300);
+	context.fillStyle="#ffffff";
+	context.beginPath();
+	context.moveTo(150, 200);
+	context.lineTo(250, 0);
+	context.lineTo(50, 0);
+	context.closePath();
+	context.fill();
+}
+
+transform();
+
+function move() {
+	moveY = document.getElementById("move").value;
+	transform();
+}
+
+function rotate() {
+	rotateZ = document.getElementById("rotate").value;
+	transform();
+}
+
+function transform(input) {
+	document.getElementById('cont-walls').style.transform = 'translateY(' + moveY + 'px) rotateZ(' + rotateZ + 'deg)';
+	document.getElementById('cont-viewpoint').style.transform = 'translateY(' + moveY + 'px)';
+}
+
+</script>

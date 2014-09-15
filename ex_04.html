@@ -1,0 +1,91 @@
+<style>
+
+* {
+  box-sizing: border-box;
+  font-family: Arial;
+  font-size: 12px;
+  margin: 0;
+}
+
+#cont {
+	height: 300px;
+	position: absolute;
+	width: 300px;
+}
+
+#screen-plane {
+	border-top: 1px dashed red;
+	position: absolute;
+	left: 0px;
+	top: 101.5px;
+	width: 300px;
+}
+
+#screen {
+	border: 2px solid red;
+	left: 100px;
+	position: absolute;
+	top: 100px;
+	width: 100px;
+}
+
+#perspective-line {
+	border-left: 1px dashed 1E90FF;
+	height: 100px;
+	position: absolute;
+	left: 150px;
+	top: 102px;
+}
+
+#perspective-point {
+	background: #1E90FF;
+	border: 1px solid black;
+	border-radius: 50%;
+	height: 6px;
+	left: 147px;
+	position: absolute;
+	top: 199px;
+	width: 6px;
+}
+
+</style>
+
+<canvas id="canvas" height="300px" style="left: 0px; position: absolute;"></canvas>
+
+<div id="cont">
+
+	<div id="screen-plane"></div>
+
+	<div id="screen"></div>
+
+	<div id="perspective-line"></div>
+
+	<div id="perspective-point"></div>
+
+</div>
+
+<div style="color: red; left: 10px; position: absolute; top: 89px;">screen<br>plane</div>
+
+<div style="left: 10px; position: absolute; top: 280px;">view from top</div>
+
+<div style="color: 1E90FF; left: 152px; position: absolute; top: 201px;">perspective</div>
+
+<script>
+
+var canvas = document.getElementById("canvas");
+
+if(canvas.getContext)
+{
+	var context = canvas.getContext("2d");
+	context.fillStyle="#C0C0C0";
+	context.fillRect(0, 0, 300, 300);
+	context.fillStyle="#ffffff";
+	context.beginPath();
+	context.moveTo(150, 200);
+	context.lineTo(250, 0);
+	context.lineTo(50, 0);
+	context.closePath();
+	context.fill();
+}
+
+</script>

@@ -1,0 +1,102 @@
+
+<style>
+
+* {
+  box-sizing: border-box;
+  font-family: Arial;
+  font-size: 12px;
+}
+
+input {
+  margin-left: 5px;
+  vertical-align: middle;
+  width: 150px;
+}
+
+span {
+	display: inline-block;
+	width: 65px;
+}
+
+.obj {
+	height: 20px;
+	position: absolute;
+	width: 30px;
+}
+
+.orig {
+	border: 1px dashed gray;
+}
+
+.obj1 {
+	background: rgba(255, 0, 0, 0.5);
+}
+
+.obj2 {
+	background: rgba(0, 255, 0, 0.5);
+}
+
+.legend {
+	height: 20px;
+	width: 30px;
+}
+
+.cell {
+	display: table-cell;
+}
+
+</style>
+
+<div style="left: 100px; position: absolute; top: 20px;">
+	<div id="orig" class="obj orig"></div>
+	<div id="obj1" class="obj obj1"></div>
+	<div id="obj2" class="obj obj2"></div>
+</div>
+
+<div style="position: absolute; left: 270px; top: 10px;">
+	<div>
+		<span>Rotate Z: </span>
+		<input id="rotate" type="range" min="-90" max="90" value="0" oninput="rotate(this);" onchange="rotate(this);"></input>
+		<span>0 deg</span>
+	</div>
+	<div>
+		<span>Translate Y: </span>
+		<input id="move" type="range" min="0" max="100" value="0" oninput="move(this);" onchange="move(this);"></input>
+		<span>0 px</span>
+	</div>
+	<div style="padding-top: 10px;">
+		<div class="legend orig cell"></div><div class="cell">&nbsp;original position</div>
+	</div>
+	<div style="padding-top: 10px;">
+		<div class="legend obj1 cell"></div><div class="cell">&nbsp;rotate z, then translate y</div>
+	</div>
+	<div style="padding-top: 10px;">
+		<div class="legend obj2 cell"></div><div class="cell">&nbsp;translate y, then rotate z</div>
+	</div
+</div>
+
+<script>
+
+var rotateZ = 0;
+var moveY = 0;
+
+transform();
+
+function move() {
+	moveY = document.getElementById("move").value;
+	document.getElementById("move").nextElementSibling.innerText = moveY + ' px';
+	transform();
+}
+
+function rotate() {
+	rotateZ = document.getElementById("rotate").value;
+	document.getElementById("rotate").nextElementSibling.innerText = rotateZ + ' deg';
+	transform();
+}
+
+function transform(input) {
+	document.getElementById('obj1').style.transform = 'rotateZ(' + rotateZ + 'deg) translateY(' + moveY + 'px)';
+	document.getElementById('obj2').style.transform = 'translateY(' + moveY + 'px) rotateZ(' + rotateZ + 'deg)';
+}
+
+</script>

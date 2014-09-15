@@ -1,0 +1,70 @@
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+#viewport {
+  border: 1px solid #000000;
+  box-sizing: content-box;
+  height: 300px;
+  width: 735px;
+}
+
+.wall {
+  padding-top: 40px;
+  position: absolute;
+}
+
+#wall-front {
+  background: linear-gradient(to bottom, #FFA533, #FFA533 50%, #FAA033 50%, #FAA033);
+  background-size: 100% 20px;
+}
+
+.window {
+  background: #ADD8E6;
+  border: 2px solid #444444;
+  display: inline-block;
+  height: 100px;
+  margin: 0px 30px 0px 30px;
+  vertical-align: top;
+  width: 75px;
+}
+
+.door {
+  background: #CD853F;
+  border: 2px solid #444444;
+  display: inline-block;
+  height: 160px;
+  margin: 0px 25px 0 25px;
+  width: 85px;
+}
+
+</style>
+
+<center>
+
+<div id="viewport">
+
+  <div id="wall-front" class="wall">
+    <div class="window"></div>
+    <div class="window"></div>
+    <div class="door"></div>
+    <div class="window"></div>
+    <div class="window"></div>
+  </div>
+
+</div>
+
+</center>
+
+<script>
+
+var roomH = 200; // Height of each wall
+var roomL = 735; // Length of each wall
+
+document.getElementById('wall-front').style.width = roomL + 'px';
+document.getElementById('wall-front').style.height = roomH + 'px';
+document.getElementById('wall-front').style.top = (300 - roomH) / 2;
+
+</script>

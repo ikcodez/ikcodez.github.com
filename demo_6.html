@@ -1,0 +1,206 @@
+<style>
+
+* {
+  background: white;
+  box-sizing: border-box;
+  font-family: Arial;
+  font-size: 12px;
+}
+
+input {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
+  width: 200px;
+}
+
+#sliders {
+  text-align: left;
+  width: 320px;
+}
+
+#viewport {
+  border: 1px solid #000000;
+  box-sizing: content-box;
+  height: 300px;
+  margin-top: 10px;
+  overflow: hidden;
+  position: relative;
+  width: 735px;
+}
+
+.wall {
+  padding-top: 40px;
+  position: absolute;
+}
+
+#wall-front {
+  background: linear-gradient(to bottom, #FFA533, #FFA533 50%, #FAA033 50%, #FAA033);
+  background-size: 100% 20px;
+}
+
+#wall-left {
+  background: linear-gradient(to bottom, #3333ff, #3333ff 50%, #3333f0 50%, #3333f0);
+  background-size: 100% 20px;
+}
+
+#wall-right {
+  background: linear-gradient(to bottom, #ff3333, #ff3333 50%, #f03333 50%, #f03333);
+  background-size: 100% 20px;
+}
+
+.wall-text {
+  background: transparent;
+  color: #ffffff;
+  font-size: 20px;
+  margin-top: -30px;
+  position: absolute;
+  width: 100%;
+}
+
+.window {
+  background: #ADD8E6;
+  border: 2px solid #444444;
+  display: inline-block;
+  height: 100px;
+  margin: 0px 30px 0px 30px;
+  vertical-align: top;
+  width: 75px;
+}
+
+.door {
+  background: #CD853F;
+  border: 2px solid #444444;
+  display: inline-block;
+  height: 160px;
+  margin: 0px 25px 0 25px;
+  width: 85px;
+}
+
+</style>
+
+<center>
+
+<div id="sliders">
+
+  Perspective:
+  <div><input id="perspective" type="range" min="0" max="1000" step="10" oninput="setPerspective(this);" onchange="setPerspective(this);"/>perspective: <span></span> px</div>
+
+  Rotate:
+  <div><input id="rotate-x" type="range" min="-90" max="90" oninput="transform(this);" onchange="transform(this);"/>rotate X: <span></span> deg</div>
+  <div><input id="rotate-y" type="range" min="-180" max="180" oninput="transform(this);" onchange="transform(this);"/>rotate Y: <span></span> deg</div>
+  <div><input id="rotate-z" type="range" min="-25" max="25" oninput="transform(this);" onchange="transform(this);"/>rotate Z: <span></span> deg</div>
+
+  Translate:
+  <div><input id="translate-x" type="range" min="-200" max="200" oninput="transform(this);" onchange="transform(this);"/>translate X: <span></span> px</div>
+  <div><input id="translate-y" type="range" min="-200" max="200" oninput="transform(this);" onchange="transform(this);"/>translate Y: <span></span> px</div>
+  <div><input id="translate-z" type="range" min="-200" max="200" oninput="transform(this);" onchange="transform(this);"/>translate Z: <span></span> px</div>
+
+</div>
+
+<div id="viewport">
+
+  <div id="wall-front" class="wall">
+    <div class="wall-text">FRONT</div>
+    <div class="window"></div>
+    <div class="window"></div>
+    <div class="door"></div>
+    <div class="window"></div>
+    <div class="window"></div>
+  </div>
+
+  <div id="wall-left" class="wall">
+    <div class="wall-text">LEFT</div>
+    <div class="window"></div>
+    <div class="window"></div>
+    <div class="window"></div>
+    <div class="window"></div>
+    <div class="window"></div>
+  </div>
+
+  <div id="wall-right" class="wall">
+    <div class="wall-text">RIGHT</div>
+    <div class="window"></div>
+    <div class="window"></div>
+    <div class="window"></div>
+    <div class="window"></div>
+    <div class="window"></div>
+  </div>
+
+</div>
+
+</center>
+
+<script>
+
+var roomH = 200; // Height of each wall
+var roomL = 735; // Length of each wall
+var values = {
+  'perspective': 750,
+  'rotate-x': 0,
+  'rotate-y': 0,
+  'rotate-z': 0,
+  'translate-x': 0,
+  'translate-y': 0,
+  'translate-z': 0
+};
+
+document.getElementById('viewport').style.perspective = values['perspective'] + 'px';
+
+document.getElementById('wall-front').style.width = roomL + 'px';
+document.getElementById('wall-front').style.height = roomH + 'px';
+document.getElementById('wall-front').style.top = (300 - roomH) / 2;
+document.getElementById('wall-front').style.transform = 'translateZ(' + (-roomL / 2) + 'px)';
+
+document.getElementById('wall-left').style.width = roomL + 'px';
+document.getElementById('wall-left').style.height = roomH + 'px';
+document.getElementById('wall-left').style.top = (300 - roomH) / 2;
+document.getElementById('wall-left').style.transform = 'rotateY(90deg) translateZ(' + (-roomL / 2) + 'px)';
+
+document.getElementById('wall-right').style.width = roomL + 'px';
+document.getElementById('wall-right').style.height = roomH + 'px';
+document.getElementById('wall-right').style.top = (300 - roomH) / 2;
+document.getElementById('wall-right').style.transform = 'rotateY(-90deg) translateZ(' + (-roomL / 2) + 'px)';
+
+for (key in values) {
+  document.getElementById(key).value = values[key];
+  document.getElementById(key).nextElementSibling.innerText = values[key];
+}
+
+function setPerspective(input) {
+  values[input.id] = parseInt(input.value);
+  input.nextElementSibling.innerText = input.value;
+
+  document.getElementById('viewport').style.perspective = values[input.id] + 'px';
+}
+
+function transform(input) {
+  values[input.id] = parseInt(input.value);
+  input.nextElementSibling.innerText = input.value;
+
+  document.getElementById('wall-front').style.transform =
+    'rotateX(' + values['rotate-x'] + 'deg) ' +
+    'rotateY(' + values['rotate-y'] + 'deg) ' +
+    'rotateZ(' + values['rotate-z'] + 'deg) ' +
+    'translateX(' + values['translate-x'] + 'px) ' +
+    'translateY(' + values['translate-y'] + 'px) ' +
+    'translateZ(' + ((-roomL / 2) + values['translate-z']) + 'px)';
+
+  document.getElementById('wall-left').style.transform =
+    'rotateX(' + values['rotate-x'] + 'deg) ' +
+    'rotateY(' + (90 + values['rotate-y']) + 'deg) ' +
+    'rotateZ(' + values['rotate-z'] + 'deg) ' +
+    'translateX(' + -(values['translate-z']) + 'px) ' +
+    'translateY(' + values['translate-y'] + 'px) ' +
+    'translateZ(' + ((-roomL / 2) + values['translate-x']) + 'px)';
+
+  document.getElementById('wall-right').style.transform =
+    'rotateX(' + values['rotate-x'] + 'deg) ' +
+    'rotateY(' + (-90 + values['rotate-y']) + 'deg) ' +
+    'rotateZ(' + values['rotate-z'] + 'deg) ' +
+    'translateX(' + values['translate-z'] + 'px) ' +
+    'translateY(' + values['translate-y'] + 'px) ' +
+    'translateZ(' + ((-roomL / 2) - values['translate-x']) + 'px)';
+}
+
+</script>
