@@ -17,6 +17,7 @@
 	margin-top: 10px;
 	overflow: hidden;
 	perspective: 750px;
+    -ms-perspective: 750px;
 	position: relative;
 	width: 735px;
 }
@@ -26,6 +27,7 @@
 	position: absolute;
 	top: 50%;
 	transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
 }
 
 .wall {
@@ -68,12 +70,16 @@
 
 #cube-left {
 	transform: rotateY(-90deg) translateZ(80px);
+    -ms-transform: rotateY(-90deg) translateZ(80px);
 	transform-origin: 100%;
+    -ms-transform-origin: 100%;
 }
 
 #cube-right {
 	transform: rotateY(90deg) translateZ(80px);
+    -ms-transform: rotateY(90deg) translateZ(80px);
 	transform-origin: 0%;
+    -ms-transform-origin: 0%;
 }
 
 #cube-back {
